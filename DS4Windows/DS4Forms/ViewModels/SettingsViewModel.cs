@@ -455,7 +455,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             {
                 runStartTask = StartupMethods.HasTaskEntry();
             }
-            catch (COMException ex)
+            catch (Exception ex) when (ex is COMException or TypeInitializationException)
             {
                 DS4Windows.AppLogger.LogToGui(string.Format("Error in TaskService. Check WinOS TaskScheduler service functionality. {0}", ex.Message), true);
             }

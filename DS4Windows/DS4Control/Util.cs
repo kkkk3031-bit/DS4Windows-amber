@@ -370,7 +370,8 @@ namespace DS4Windows
         public static bool SystemAppsUsingDarkTheme()
         {
             bool result = false;
-            if (int.TryParse(Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", "0").ToString(), out int lightEnabled))
+            object regValue = Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", "0");
+            if (regValue != null && int.TryParse(regValue.ToString(), out int lightEnabled))
             {
                 result = lightEnabled == 0;
             }

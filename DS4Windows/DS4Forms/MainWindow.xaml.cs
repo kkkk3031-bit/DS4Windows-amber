@@ -437,6 +437,7 @@ namespace DS4WinWPF.DS4Forms
             }
             catch (COMException) { }
             catch (ManagementException) { }
+            catch (PlatformNotSupportedException) { }
 
             if (scope.IsConnected)
             {
