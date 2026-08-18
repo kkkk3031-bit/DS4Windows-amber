@@ -31,18 +31,29 @@
             </tb:TaskbarIcon.ContextMenu>-->
         </tb:TaskbarIcon>
 
-        <StackPanel DockPanel.Dock="Bottom" Height="30" VerticalAlignment="Bottom">
-            <DockPanel Height="30">
-                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                    <Button x:Name="aboutBtn" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF3881D8"
-                            Style="{StaticResource NoBGHoverBtn}" Click="AboutBtn_Click">
-                        <TextBlock Text="{lex:Loc HotkeysAbout}" TextDecorations="Underline" Foreground="{DynamicResource AccentColor}" Cursor="Hand" x:Uid="hotkeysText" />
-                    </Button>
-                    <Button x:Name="StartStopBtn" Content="{lex:Loc StartText}" Margin="10,0,4,0" Click="StartStopBtn_Click" Width="60" Height="20" Foreground="{DynamicResource ForegroundColor}" />
-                </StackPanel>
-                <Label x:Name="lastMsgLb" Content="{Binding Message}" ToolTip="{Binding Message}" Foreground="{Binding Color}" Margin="4,0,2,0" />
+        <Border DockPanel.Dock="Top" Background="{DynamicResource BackgroundColor}" BorderBrush="{DynamicResource AccentColor}" BorderThickness="0,0,0,3" Padding="12,8">
+            <DockPanel LastChildFill="False">
+                <Image Source="/Resources/DS4W.ico" Width="22" Height="22" Margin="0,0,8,0" VerticalAlignment="Center" DockPanel.Dock="Left" />
+                <TextBlock Text="DS4Windows" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"
+                           Foreground="{DynamicResource AccentColor}" DockPanel.Dock="Left" />
             </DockPanel>
-        </StackPanel>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom" BorderBrush="{DynamicResource BorderColor}" BorderThickness="0,1,0,0">
+            <StackPanel Height="36" VerticalAlignment="Bottom">
+                <DockPanel Height="36" Margin="8,0">
+                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button x:Name="aboutBtn" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF3881D8"
+                                Style="{StaticResource NoBGHoverBtn}" Click="AboutBtn_Click">
+                            <TextBlock Text="{lex:Loc HotkeysAbout}" TextDecorations="Underline" Foreground="{DynamicResource AccentColor}" Cursor="Hand" x:Uid="hotkeysText" />
+                        </Button>
+                        <Button x:Name="StartStopBtn" Content="{lex:Loc StartText}" Margin="10,0,4,0" Click="StartStopBtn_Click" Width="70" Height="24"
+                                Background="{DynamicResource AccentColor}" Foreground="Black" FontWeight="Bold" BorderThickness="0" />
+                    </StackPanel>
+                    <Label x:Name="lastMsgLb" Content="{Binding Message}" ToolTip="{Binding Message}" Foreground="{Binding Color}" Margin="4,0,2,0" VerticalAlignment="Center" />
+                </DockPanel>
+            </StackPanel>
+        </Border>
         <TabControl x:Name="mainTabCon" DockPanel.Dock="Top" SelectionChanged="MainTabCon_SelectionChanged">
             <TabItem Header="{lex:Loc Controllers}" IsEnabled="{Binding FullTabsEnabled,Mode=OneWay}">
                 <Grid>
