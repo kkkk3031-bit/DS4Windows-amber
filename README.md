@@ -28,10 +28,37 @@ reskin on top of [ds4windowsapp/DS4Windows](https://github.com/ds4windowsapp/DS4
 - `DS4Forms/Themes/DarkTheme.xaml` / `DefaultTheme.xaml` — swapped the blue accent for a bold amber
   (`#C77800`), deepened the dark background/hover tones for contrast.
 - `DS4Forms/MainWindow.xaml` — added an amber-accented header bar with the app icon/title, restyled the
-  Start/Stop button as a filled amber pill, and gave the bottom status bar more breathing room.
+  Start/Stop button as a filled amber pill, gave the bottom status bar more breathing room, and grouped the
+  Settings tab's loose checkboxes into labeled GroupBoxes (General / Notifications / Startup & Window /
+  Appearance / Updates).
+- `Translations/Strings.ar.resx` — Arabic completed 109 → 444/444 keys (100%).
 
-It's a Windows-only WPF app, so these changes are built/verified by opening `DS4WindowsWPF.sln` on Windows —
-not run/tested from the Linux box this fork was edited on.
+| Controllers (light) | Settings (light, grouped) |
+|---|---|
+| ![Controllers light](docs/screenshot-controllers-light.png) | ![Settings light](docs/screenshot-settings-light.png) |
+
+| Controllers (dark) | Settings (dark) |
+|---|---|
+| ![Controllers dark](docs/screenshot-controllers-dark.png) | ![Settings dark](docs/screenshot-settings-dark.png) |
+
+It's a Windows-only WPF app, but it turns out `dotnet publish -r win-x64 --self-contained` cross-builds fine
+from Linux, and the resulting self-contained build actually **runs under Wine** — the screenshots above are
+from a real live session on this VPS (`wine DS4Windows.exe` under Xvfb), not a mockup. Getting there surfaced
+three real defensive-coding bugs, all now fixed:
+
+- `DS4Control/Util.cs` `SystemAppsUsingDarkTheme()` — `Registry.GetValue()` returns `null` when the *key*
+  itself doesn't exist (not just the value), but the code called `.ToString()` on the result unconditionally
+  — crashed at startup with a `NullReferenceException` anywhere that registry key is absent.
+- `DS4Forms/ViewModels/SettingsViewModel.cs` — a `catch (COMException)` around the Task Scheduler check
+  didn't account for .NET wrapping static-constructor failures in `TypeInitializationException`, so the
+  exact failure it was meant to catch slipped through uncaught.
+- `DS4Forms/MainWindow.xaml.cs` `SetupEvents()` — same pattern: `catch (COMException) / catch
+  (ManagementException)` around a WMI connect call missed `PlatformNotSupportedException`, which
+  `System.Management` throws when the underlying WMI interop isn't available.
+
+All three follow the same shape: defensive try/catch blocks that anticipated *some* failure but missed an
+exception type the underlying API can actually throw — worth a look even on real Windows, since locked-down
+or non-standard environments (Server Core, sandboxes, older OS builds) can hit the same gaps.
 
 ## License
 
