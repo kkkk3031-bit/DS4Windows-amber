@@ -20,6 +20,19 @@ modifications to the code that detects if the installed version is up-to-date, s
 repo. This way if you install my version, you don't get the annoying popup saying your version is outdated. If there 
 are any feature requests, I'm more than happy to at least look at them and assess whether I could add them.
 
+## About this amber fork
+
+This fork ([khaledq84ever/DS4Windows-amber](https://github.com/khaledq84ever/DS4Windows-amber)) is a UI/UX
+reskin on top of [ds4windowsapp/DS4Windows](https://github.com/ds4windowsapp/DS4Windows). Changes so far:
+
+- `DS4Forms/Themes/DarkTheme.xaml` / `DefaultTheme.xaml` — swapped the blue accent for a bold amber
+  (`#C77800`), deepened the dark background/hover tones for contrast.
+- `DS4Forms/MainWindow.xaml` — added an amber-accented header bar with the app icon/title, restyled the
+  Start/Stop button as a filled amber pill, and gave the bottom status bar more breathing room.
+
+It's a Windows-only WPF app, so these changes are built/verified by opening `DS4WindowsWPF.sln` on Windows —
+not run/tested from the Linux box this fork was edited on.
+
 ## License
 
 DS4Windows is licensed under the terms of the GNU General Public License version 3.
